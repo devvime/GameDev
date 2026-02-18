@@ -1,0 +1,25 @@
+import * as THREE from 'three';
+import * as CANNON from 'cannon-es';
+import Entity from '../../../engine/Entity';
+
+export default class Floor extends Entity {
+
+  name = 'floor';
+
+  constructor() {
+    super();
+
+    this.geometry = new THREE.BoxGeometry(10, 0.2, 10);
+    this.material = new THREE.MeshLambertMaterial({ color: 0xcccccc });
+    this.SetCollider({
+      size: new THREE.Vector3(10, 0.2, 10),
+      isStatic: true
+    });
+  }
+
+  update(dt) {
+    // console.log("Floor update", dt);
+  }
+
+
+}
