@@ -1,10 +1,10 @@
 import * as THREE from 'three';
-import { EditorCameraController } from "./EditorCameraController";
-import { Camera } from "./Camera";
-import { Render } from "./Renderer";
-import { Scenes } from "./SceneManager";
+import { EditorCameraController } from "../EditorCameraController";
+import { Camera } from "../Camera";
+import { Render } from "../Renderer";
+import { Scenes } from "../SceneManager";
 import Stats from 'stats.js';
-import { Output } from './utils/Event';
+import { Output } from '../utils/Event';
 
 class Editor {
 
@@ -26,7 +26,6 @@ class Editor {
   }
 
   OnChangeScene() {
-    game.world.enableDebug(Scenes.currentScene);
     this.AddGrid();
   }
 

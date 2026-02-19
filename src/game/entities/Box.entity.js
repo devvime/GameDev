@@ -11,11 +11,10 @@ export default class Box extends Entity {
     this.geometry = new THREE.BoxGeometry(1, 1, 1);
     this.material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
 
-    this.position.set(-2, 3, 0);
-
-    this.SetCollider({
-      size: new THREE.Vector3(1, 1, 1),
-      offset: new THREE.Vector3(0, 0, 0)
+    this.body = window.game.physics.add(this, {
+      shape: 'box',
+      size: [1, 1, 1],
+      pos: [-2, 3, 0]
     });
   }
 

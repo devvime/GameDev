@@ -13,7 +13,7 @@ body {
 
 #app {
   transition: all .3s;
-  opacity: 0;
+  opacity: 1;
 }
 
 .loading {

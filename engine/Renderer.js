@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { Camera } from './Camera';
 import { Scenes } from './SceneManager';
-import { World } from './physics/PhysicsWorld';
 
 class Renderer {
 
@@ -18,7 +17,7 @@ class Renderer {
       if (window.editor) window.editor.stats.begin();
 
       const dt = this.clock.getDelta();
-      World.step(dt);
+      window.game.physics.step();
       Scenes.Update(dt);
       this.renderer.render(Scenes.currentScene, Camera);
 

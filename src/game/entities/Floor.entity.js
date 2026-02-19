@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import * as CANNON from 'cannon-es';
 import Entity from '../../../engine/Entity';
 
 export default class Floor extends Entity {
@@ -11,9 +10,11 @@ export default class Floor extends Entity {
 
     this.geometry = new THREE.BoxGeometry(10, 0.2, 10);
     this.material = new THREE.MeshLambertMaterial({ color: 0xcccccc });
-    this.SetCollider({
-      size: new THREE.Vector3(10, 0.2, 10),
-      isStatic: true
+
+    this.body = window.game.physics.add(this, {
+      shape: 'box',
+      size: [10, 0.2, 10],
+      move: false,
     });
   }
 

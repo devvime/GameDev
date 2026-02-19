@@ -1,7 +1,6 @@
 import Scene from './Scene';
 import { Emit } from './utils/Event';
 import { disposeObject } from './utils/Dispose';
-import { World } from './physics/PhysicsWorld';
 
 class SceneManager {
 
@@ -45,7 +44,6 @@ class SceneManager {
   }
 
   Destroy() {
-    World.Clear();
     const scene = this.currentScene;
     if (!scene) return;
 
