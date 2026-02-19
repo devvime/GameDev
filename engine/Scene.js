@@ -14,6 +14,7 @@ export default class Scene extends THREE.Scene {
     super();
     this.SetWorld();
     this.camera = Camera;
+    this.camera.position.set(0, 2, 5);
   }
 
   SetWorld() {

@@ -12,19 +12,14 @@ export default class Box extends Entity {
     this.material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
 
     this.body = window.game.physics.add(this, {
+      name: 'BoxBody',
       shape: 'box',
       size: [1, 1, 1],
       pos: [-2, 3, 0]
     });
   }
 
-  Update(dt) {
-    // console.log("Box update", dt);
-  }
-
-  OnDestroy() {
-    //
-  }
+  Update(dt) { }
 
 
 }

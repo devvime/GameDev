@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { EditorCameraController } from "../EditorCameraController";
+import { EditorCameraController } from "./EditorCameraController";
 import { Camera } from "../Camera";
 import { Render } from "../Renderer";
 import { Scenes } from "../SceneManager";

@@ -44,6 +44,7 @@ class SceneManager {
   }
 
   Destroy() {
+    window.game.physics.clear();
     const scene = this.currentScene;
     if (!scene) return;
 

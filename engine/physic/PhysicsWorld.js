@@ -3,6 +3,7 @@ import * as THREE from 'three';
 
 class PhysicsWorld {
   constructor() {
+    this.debug = false;
     this.world = new OIMO.World({
       timestep: 1 / 60,
       iterations: 8,
@@ -27,7 +28,10 @@ class PhysicsWorld {
     restitution = 0.2,
     belongsTo = 1,
     collidesWith = 0xffffffff,
+    name = "Body",
+    offsetY = 0
   }) {
+    this.offsetY = offsetY;
     const body = this.world.add({
       type: shape,
       size: size,
@@ -38,11 +42,14 @@ class PhysicsWorld {
       friction: friction,
       restitution: restitution,
       belongsTo: belongsTo,
-      collidesWith: collidesWith
+      collidesWith: collidesWith,
+      name: name
     });
+    this.bodies.push({ body, mesh });
+
     const debugMesh = this.createDebugMesh(size);
     this.debugMeshes.push({ body, mesh: debugMesh });
-    this.bodies.push({ body, mesh });
+
     return body;
   }
 
@@ -53,24 +60,51 @@ class PhysicsWorld {
       color: 0x00ff00
     });
     const line = new THREE.LineSegments(edges, material);
-    window.game.scenes.currentScene.add(line);
     return line;
+  }
+
+  enableDebug() {
+    this.debug = true;
+    for (const item of this.debugMeshes) {
+      window.game.scenes.currentScene.add(item.mesh);
+    }
   }
 
   step() {
     this.world.step();
 
-    // if (debug) {
-    for (const item of this.debugMeshes) {
-      item.mesh.position.copy(item.body.getPosition());
-      item.mesh.quaternion.copy(item.body.getQuaternion());
+    if (this.debug) {
+      for (const item of this.debugMeshes) {
+        item.mesh.position.copy(item.body.getPosition());
+        item.mesh.quaternion.copy(item.body.getQuaternion());
+      }
     }
-    // }
 
     for (const item of this.bodies) {
       item.mesh.position.copy(item.body.getPosition());
       item.mesh.quaternion.copy(item.body.getQuaternion());
+
+      if (item.body.name === 'PlayerBody') {
+        item.body.orientation.set(0, item.body.orientation.y, 0, item.body.orientation.w);
+        item.body.angularVelocity.set(0, item.body.angularVelocity.y, 0);
+        if (item.mesh.model) {
+          item.mesh.model.position.copy(item.mesh.position);
+          item.mesh.model.position.y -= this.offsetY;
+        }
+      }
     }
+  }
+
+  clear() {
+    for (const item of this.bodies) {
+      this.world.remove(item.body);
+    }
+    this.bodies = [];
+
+    for (const item of this.debugMeshes) {
+      window.game.scenes.currentScene.remove(item.mesh);
+    }
+    this.debugMeshes = [];
   }
 }
 

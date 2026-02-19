@@ -11,7 +11,14 @@ export default class Player extends Entity {
   constructor() {
     super();
 
-    this.position.set(0, 3, 0);
+    this.body = window.game.physics.add(this, {
+      name: 'PlayerBody',
+      offsetY: 0.85,
+      shape: 'box',
+      size: [0.3, 1.7, 0.3],
+      pos: [0, 3, 0],
+      restitution: 0,
+    });
   }
 
   async Create() {
@@ -31,21 +38,14 @@ export default class Player extends Entity {
     // });
   }
 
-  UpdateComponets() {
+  UpdateComponets(dt) {
     if (this.skinController) this.skinController.update(dt);
     if (this.cameraFollow) this.cameraFollow.update(dt);
   }
 
   Update(dt) {
     if (!this.model) return;
-    this.model.position.copy(this.position);
-    this.model.position.y -= 0.85;
-
-    this.UpdateComponets();
-  }
-
-  OnDestroy() {
-    //
+    this.UpdateComponets(dt);
   }
 
 

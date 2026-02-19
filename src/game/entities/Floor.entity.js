@@ -12,15 +12,14 @@ export default class Floor extends Entity {
     this.material = new THREE.MeshLambertMaterial({ color: 0xcccccc });
 
     this.body = window.game.physics.add(this, {
+      name: 'FloorBody',
       shape: 'box',
       size: [10, 0.2, 10],
       move: false,
     });
   }
 
-  update(dt) {
-    // console.log("Floor update", dt);
-  }
+  update(dt) { }
 
 
 }
