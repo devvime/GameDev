@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import Entity from '../../../engine/Entity';
+import { floor } from 'three/tsl';
 
 export default class Floor extends Entity {
 
@@ -15,7 +16,7 @@ export default class Floor extends Entity {
       name: 'FloorBody',
       shape: 'box',
       size: [10, 0.2, 10],
-      move: false,
+      move: false
     });
   }
 

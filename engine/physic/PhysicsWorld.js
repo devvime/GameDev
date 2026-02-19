@@ -91,8 +91,40 @@ class PhysicsWorld {
           item.mesh.model.position.copy(item.mesh.position);
           item.mesh.model.position.y -= this.offsetY;
         }
+        item.mesh.onGround = this.checkGround(item.body);
       }
     }
+  }
+
+  // checkGround(body) {
+  //   var contact = this.world.contacts;
+  //   while (contact !== null) {
+  //     if ((contact.body1 === body || contact.body2 === body) && contact.touching) {
+  //       return true;
+  //     }
+  //     contact = contact.next;
+  //   }
+  //   return false;
+  // }
+
+  checkGround(body) {
+    let contact = this.world.contacts;
+    let isGrounded = false;
+    while (contact !== null) {
+      if ((contact.body1 === body || contact.body2 === body) && contact.touching) {
+        let manifold = contact.manifold;
+
+        if (manifold.numPoints > 0) {
+          let normal = manifold.points[0].normal;
+
+          if (normal && Math.abs(normal.y) > 0.5) {
+            isGrounded = true;
+          }
+        }
+      }
+      contact = contact.next;
+    }
+    return isGrounded;
   }
 
   clear() {

@@ -50,7 +50,7 @@ export class PlayerSkinController {
 
     let anim = 'Fall';
 
-    if (this.player.rigidbody.grounded) {
+    if (this.player.onGround) {
       anim = 'Idle';
 
       if (this.keys["w"] || this.keys["a"] || this.keys["s"] || this.keys["d"]) {

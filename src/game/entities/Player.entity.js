@@ -3,6 +3,7 @@ import Entity from '../../../engine/Entity';
 import { Animator } from '../../../engine/Animator';
 import { PlayerSkinController } from '../components/player/PlayerSkin.component';
 import { CameraFollow } from '../components/player/CameraFollow.component';
+import { CharacterController } from '../../../engine/physic/CharacterController';
 
 export default class Player extends Entity {
 
@@ -31,16 +32,18 @@ export default class Player extends Entity {
   }
 
   SetComponents() {
-    // this.skinController = new PlayerSkinController(this);
-    // this.cameraFollow = new CameraFollow(window.game.camera, this, {
-    //   offset: new THREE.Vector3(0, 1.8, 3),
-    //   smooth: 0.1
-    // });
+    this.skinController = new PlayerSkinController(this);
+    this.cameraFollow = new CameraFollow(window.game.camera, this, {
+      offset: new THREE.Vector3(0, 1.8, 3),
+      smooth: 0.1
+    });
+    this.controller = new CharacterController(this, window.game.physics);
   }
 
   UpdateComponets(dt) {
     if (this.skinController) this.skinController.update(dt);
-    if (this.cameraFollow) this.cameraFollow.update(dt);
+    // if (this.cameraFollow) this.cameraFollow.update(dt);
+    if (this.controller) this.controller.update(dt);
   }
 
   Update(dt) {
