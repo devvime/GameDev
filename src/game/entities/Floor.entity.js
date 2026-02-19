@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import * as CANNON from 'cannon-es';
 import Entity from '../../../engine/Entity';
 
 export default class Floor extends Entity {
