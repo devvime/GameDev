@@ -20,6 +20,8 @@ export default class Player extends Entity {
       pos: [0, 3, 0],
       restitution: 0,
     });
+    this.width = 0.3;
+    this.height = 1.5;
   }
 
   async Create() {

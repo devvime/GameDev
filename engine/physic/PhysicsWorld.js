@@ -15,6 +15,7 @@ class PhysicsWorld {
     });
     this.debugMeshes = [];
     this.bodies = [];
+    this.raycaster = new THREE.Raycaster();
   }
 
   add(mesh, {
@@ -91,7 +92,7 @@ class PhysicsWorld {
           item.mesh.model.position.copy(item.mesh.position);
           item.mesh.model.position.y -= this.offsetY;
         }
-        item.mesh.onGround = this.checkGround(item.body);
+        item.mesh.onGround = this.checkGround(item.mesh);
       }
     }
   }
@@ -107,24 +108,38 @@ class PhysicsWorld {
   //   return false;
   // }
 
-  checkGround(body) {
-    let contact = this.world.contacts;
-    let isGrounded = false;
-    while (contact !== null) {
-      if ((contact.body1 === body || contact.body2 === body) && contact.touching) {
-        let manifold = contact.manifold;
+  checkGround(entity) {
+    const halfHeight = entity.height / 2;
+    const radius = entity.width / 1.5;
+    const down = new THREE.Vector3(0, -1, 0);
 
-        if (manifold.numPoints > 0) {
-          let normal = manifold.points[0].normal;
+    const offsets = [
+      new THREE.Vector3(0, 0, 0), // centro
+      new THREE.Vector3(radius, 0, radius),   // frente direita
+      new THREE.Vector3(-radius, 0, radius),  // frente esquerda
+      new THREE.Vector3(radius, 0, -radius),  // trás direita
+      new THREE.Vector3(-radius, 0, -radius), // trás esquerda
+    ];
 
-          if (normal && Math.abs(normal.y) > 0.5) {
-            isGrounded = true;
-          }
-        }
+    for (let offset of offsets) {
+      const origin = entity.position.clone();
+      origin.y -= halfHeight;
+      origin.add(offset);
+
+      this.raycaster.set(origin, down);
+      this.raycaster.far = 0.25;
+
+      const intersects = this.raycaster.intersectObjects(
+        window.game.scenes.currentScene.children,
+        true
+      );
+
+      if (intersects.length > 0) {
+        return true;
       }
-      contact = contact.next;
     }
-    return isGrounded;
+
+    return false;
   }
 
   clear() {
