@@ -36,7 +36,7 @@ export default class Player extends Entity {
   SetComponents() {
     this.skinController = new PlayerSkinController(this);
     this.cameraFollow = new CameraFollow(window.game.camera, this, {
-      offset: new THREE.Vector3(0, 1.8, 3),
+      offset: new THREE.Vector3(0, 7, 6),
       smooth: 0.1
     });
     this.controller = new CharacterController(this, window.game.physics);
@@ -44,7 +44,7 @@ export default class Player extends Entity {
 
   UpdateComponets(dt) {
     if (this.skinController) this.skinController.update(dt);
-    // if (this.cameraFollow) this.cameraFollow.update(dt);
+    if (this.cameraFollow) this.cameraFollow.update(dt);
     if (this.controller) this.controller.update(dt);
   }
 
